@@ -12,6 +12,16 @@ todos = [
 def hello_world():
     return jsonify(todos)
 
+@app.route('/todos/<int:position>', methods=['GET'])
+def get_one_position(position):
+    global todos  # Paso 1: acceder a la lista global
+
+    # Paso 2: verificar que la posición existe y eliminar la tarea
+    if 0 <= position < len(todos):
+        return jsonify(todos[position])  # Paso 3: devolver la lista actualizada
+    else:
+        return jsonify({"error": "Posición no válida"}), 404
+
 @app.route('/todos', methods=['POST'])
 def add_new_todo():
     request_body = request.json
